@@ -1,3 +1,8 @@
+> [!WARNING]
+> This entire repo and the associated repos is a meme intended to troll a [certain someone](https://github.com/markekraus) on their birthday.
+> 
+> The entire P# ecosystem is a joke and should not be taken seriously. It was created by prompting Haiku 4.5 to create a modern shell language that fixes all the problems with PowerShell, and then generating a complete marketing ecosystem around it.
+
 # P# - The Joy of Shell Scripting
 
 P# is a modern, elegant shell language that fixes everything wrong with PowerShell while maintaining the productivity benefits of a powerful scripting environment.
