@@ -369,14 +369,168 @@ P# consists of:
 - [ ] Debugger
 - [ ] LSP integration for IDE support
 
+## 🌍 P# Ecosystem
+
+P# is a complete ecosystem with multiple components working together:
+
+### Core Language
+**Repository:** [thomasrayner/psharp](https://github.com/thomasrayner/psharp)  
+**Description:** The P# language implementation in Rust. Includes lexer, parser, evaluator, REPL, and 40+ built-in functions.  
+**Features:** Variables, functions, control flow, data structures, system integration  
+**Status:** ✅ Production ready (v0.1.0)
+
+### Language Server Protocol (LSP)
+**Repository:** [thomasrayner/psharp-lsp](https://github.com/thomasrayner/psharp-lsp)  
+**Description:** Standalone LSP server for P# language support in any editor.  
+**Features:** Auto-completion, hover documentation, symbol navigation, error diagnostics  
+**Status:** ✅ Fully functional
+
+### VSCode Extension
+**Repository:** [thomasrayner/psharp-vscode](https://github.com/thomasrayner/psharp-vscode)  
+**Description:** Official VSCode extension with syntax highlighting and LSP integration.  
+**Features:** Syntax coloring, IntelliSense, command palette integration  
+**Installation:** Search "P#" in VSCode marketplace  
+**Status:** ✅ Available on marketplace
+
+### Neovim Plugin
+**Repository:** [thomasrayner/psharp-nvim](https://github.com/thomasrayner/psharp-nvim)  
+**Description:** Neovim plugin for P# with syntax highlighting and LSP setup.  
+**Features:** Native Vim syntax, LSP configuration, ftplugin setup  
+**Installation:** Add to your Neovim plugin manager  
+**Status:** ✅ Production ready
+
+### Web & Marketing
+**Repository:** [thomasrayner/psharp-web](https://github.com/thomasrayner/psharp-web)  
+**Description:** Complete marketing ecosystem including interactive playground, tutorials, and community materials.  
+**Features:**
+  - 🎮 **Interactive Playground** - Try P# in browser without installation
+  - 📚 **50+ Examples** - Copy-paste scripts for every use case
+  - 📖 **Quick Cheat Sheet** - Language reference guide
+  - 🎬 **Video Tutorials** - 6 production-ready scripts (3-5 min each)
+  - 🎨 **Branding** - Complete design system with Harmony mascot
+  - 🏆 **Achievement System** - 25 badges across 5 levels
+  - 💬 **Community Templates** - GitHub Discussions setup
+  - 🎁 **Assets** - SVG badges and graphics  
+**Status:** ✅ Launch ready
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install P#
+```bash
+git clone https://github.com/thomasrayner/psharp
+cd psharp
+cargo build --release
+./target/release/psharp
+```
+
+### 2. Try in Browser (No Installation)
+Visit the **[Interactive Playground](https://thomasrayner.github.io/psharp-web/playground.html)** and code P# instantly!
+
+### 3. Install IDE Support
+
+**VSCode:**
+- Search for "P#" in marketplace
+- Click Install
+- Reload VSCode
+
+**Neovim:**
+- Install `psharp-nvim` plugin via your plugin manager
+- Run `:PlugInstall` (or equivalent)
+
+### 4. Learn with Examples
+Browse the **[50+ Examples](https://github.com/thomasrayner/psharp-web/blob/main/EXAMPLES.md)** or use the **[Quick Cheat Sheet](https://github.com/thomasrayner/psharp-web/blob/main/CHEATSHEET.md)**
+
+### 5. Join the Community
+- 💬 **[GitHub Discussions](https://github.com/thomasrayner/psharp/discussions)** - Ask questions, share projects
+- 🎓 **[Video Tutorials](https://github.com/thomasrayner/psharp-web/blob/main/VIDEO_TUTORIALS.md)** - Learn step-by-step
+- 🏆 **[Achievements](https://github.com/thomasrayner/psharp-web/blob/main/ACHIEVEMENTS.md)** - Earn badges as you learn
+
+---
+
+## 📚 Documentation
+
+| Resource | Purpose |
+|----------|---------|
+| [Interactive Playground](https://thomasrayner.github.io/psharp-web/playground.html) | Try P# in browser |
+| [50+ Examples](https://github.com/thomasrayner/psharp-web/blob/main/EXAMPLES.md) | Learn by doing |
+| [Cheat Sheet](https://github.com/thomasrayner/psharp-web/blob/main/CHEATSHEET.md) | Quick reference |
+| [Video Tutorials](https://github.com/thomasrayner/psharp-web/blob/main/VIDEO_TUTORIALS.md) | Step-by-step guides |
+| [Branding Guide](https://github.com/thomasrayner/psharp-web/blob/main/BRANDING.md) | Design system |
+| [Achievement System](https://github.com/thomasrayner/psharp-web/blob/main/ACHIEVEMENTS.md) | Gamification |
+| [Community Setup](https://github.com/thomasrayner/psharp-web/blob/main/GITHUB_DISCUSSIONS.md) | Discussion templates |
+
+---
+
+## 🎵 Philosophy
+
+P# is built on the principle that **scripting should be joyful**.
+
+**Our Philosophy:**
+1. **Simplicity** - Easy to learn and understand
+2. **Consistency** - Predictable behavior
+3. **Performance** - Compiled Rust implementation
+4. **Safety** - Memory-safe operations
+5. **Interoperability** - Easy system integration
+6. **Joy** - Scripting should be fun! 🎵
+
+Every tool, tutorial, and interaction celebrates the joy of coding.
+
+---
+
+## 🎨 Meet Harmony
+
+**Harmony** is the friendly P# mascot - a joyful musical note character representing the delight and music of scripting. You'll see Harmony throughout the community, tutorials, and documentation celebrating your progress!
+
+---
+
 ## Contributing
 
 P# is open source and welcomes contributions!
 
-## License
+**Ways to Contribute:**
+- 🐛 Report bugs and suggest features
+- 💻 Submit code improvements
+- 📚 Write examples and documentation
+- 🎬 Create video tutorials
+- 🤝 Help in GitHub Discussions
+- 🎨 Design Harmony expressions and graphics
 
-MIT
+See individual repository CONTRIBUTING.md files for details.
 
 ---
 
-**Welcome to the joy of shell scripting with P#** 🎉
+## Repository Map
+
+```
+P# Ecosystem
+├── psharp                    (Core language)
+├── psharp-lsp              (LSP server)
+├── psharp-vscode           (VSCode extension)
+├── psharp-nvim             (Neovim plugin)
+└── psharp-web              (Docs, playground, community)
+    ├── playground.html
+    ├── EXAMPLES.md
+    ├── CHEATSHEET.md
+    ├── VIDEO_TUTORIALS.md
+    ├── BRANDING.md
+    ├── ACHIEVEMENTS.md
+    ├── STICKERS.svg
+    └── GITHUB_DISCUSSIONS.md
+```
+
+---
+
+## License
+
+MIT - All repositories use MIT license.
+
+---
+
+**Welcome to the joy of shell scripting with P#!** 🎵
+
+**Get started:** 
+- 🎮 [Try Playground](https://thomasrayner.github.io/psharp-web/playground.html)
+- 📖 [Read Docs](https://github.com/thomasrayner/psharp-web/blob/main/README_MARKETING.md)
+- 💬 [Join Community](https://github.com/thomasrayner/psharp/discussions)
