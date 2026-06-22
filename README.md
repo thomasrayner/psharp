@@ -2,17 +2,24 @@
 
 P# is a modern, elegant shell language that fixes everything wrong with PowerShell while maintaining the productivity benefits of a powerful scripting environment.
 
-**Current Version:** 0.2.0 - Quality & Security Release
+**Current Version:** 1.0 (Release Candidate) - Lambda Expressions & String Interpolation
 
-## 🎉 What's New in v0.2
+## 🎉 What's New in v1.0
 
-### Critical Fixes
+### Major Features
+- ✅ **Lambda Expressions** - Anonymous functions with `|param| expression` syntax
+- ✅ **String Interpolation** - Embed expressions with `"Hello, ${name}!"`
+- ✅ **30 Integration Tests** - Comprehensive test suite verifying all features
+
+### Previous: v0.2 - Quality & Security Release
+
+#### Critical Fixes
 - ✅ **Recursive Functions** - Functions can now call themselves (factorial, fibonacci, etc.)
 - ✅ **Security Hardened** - Removed shell injection vulnerability, restricted file access to current directory
 - ✅ **Resource Protection** - Recursion depth limit (1000) prevents stack overflow
 - ✅ **Negative Indexing** - Python-style `arr[-1]` for last element
 
-### 30+ New Builtin Functions
+#### 30+ New Builtin Functions
 - **Array:** push, pop, shift, unshift, sort, unique, flatten, compact, slice, find, index_of
 - **String:** chars, lines, capitalize, indent, pad_left, pad_right
 - **Predicates:** includes?, empty?, any?, all?
@@ -168,6 +175,49 @@ range(1, 10) | print()
 
 # Process strings
 "hello world" | upper() | print()  # HELLO WORLD
+```
+
+### Lambda Expressions (v1.0)
+
+Create anonymous functions with the pipe-friendly `|param| expression` syntax:
+
+```p#
+# Simple lambda
+let double = |x| x * 2
+print(double(5))  # 10
+
+# Lambda with multiple parameters
+let add = |a, b| a + b
+print(add(3, 4))  # 7
+
+# Lambdas work great with pipes
+5 | |x| x * 2 | print()  # 10
+
+# Lambda with complex expressions
+let isEven = |x| x % 2 == 0
+[1, 2, 3, 4, 5] | filter(isEven)  # [2, 4]
+```
+
+### String Interpolation (v1.0)
+
+Embed expressions directly in strings with `${...}`:
+
+```p#
+let name = "Alice"
+let age = 30
+print("Hello, ${name}! You are ${age} years old.")
+# Output: Hello, Alice! You are 30 years old.
+
+# Interpolate with expressions
+let x = 5
+let y = 10
+print("${x} + ${y} = ${x + y}")
+# Output: 5 + 10 = 15
+
+# Interpolate with function calls
+let arr = [1, 2, 3]
+print("Array length: ${arr | len()}")
+# Output: Array length: 3
 ```
 
 ### Operators
