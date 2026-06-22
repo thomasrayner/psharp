@@ -183,3 +183,27 @@ fn test_type_check_array() {
     let result = run_psharp("print(type([1, 2, 3]))");
     assert_eq!(result, "array");
 }
+
+#[test]
+fn test_string_interpolation_simple() {
+    let result = run_psharp("let name = \"Alice\"\nprint(\"Hello, ${name}!\")");
+    assert_eq!(result, "Hello, Alice!");
+}
+
+#[test]
+fn test_string_interpolation_expression() {
+    let result = run_psharp("let x = 5\nlet y = 10\nprint(\"Sum: ${x + y}\")");
+    assert_eq!(result, "Sum: 15");
+}
+
+#[test]
+fn test_string_interpolation_with_pipes() {
+    let result = run_psharp("let arr = [1, 2, 3]\nprint(\"Length: ${arr | len()}\")");
+    assert_eq!(result, "Length: 3");
+}
+
+#[test]
+fn test_string_interpolation_multiple() {
+    let result = run_psharp("let x = 3\nlet y = 4\nprint(\"${x} times ${y} is ${x * y}\")");
+    assert_eq!(result, "3 times 4 is 12");
+}

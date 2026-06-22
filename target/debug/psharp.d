@@ -1,0 +1,1 @@
+/tmp/opencode/psharp/target/debug/psharp: /tmp/opencode/psharp/src/builtins.rs /tmp/opencode/psharp/src/evaluator.rs /tmp/opencode/psharp/src/lexer.rs /tmp/opencode/psharp/src/main.rs /tmp/opencode/psharp/src/parser.rs /tmp/opencode/psharp/src/repl.rs /tmp/opencode/psharp/src/types.rs

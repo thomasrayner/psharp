@@ -234,7 +234,42 @@ impl Evaluator {
             Expression::Null => Ok(Value::Null),
             Expression::Bool(b) => Ok(Value::Bool(*b)),
             Expression::Number(n) => Ok(Value::Number(*n)),
-            Expression::String(s) => Ok(Value::String(s.clone())),
+            Expression::String(s) => {
+                // Handle string interpolation
+                if s.contains('\x00') || s.contains('\x01') {
+                    // This is an interpolated string
+                    let mut result = String::new();
+                    let mut chars = s.chars().peekable();
+                    
+                    while let Some(c) = chars.next() {
+                        if c == '\x00' {
+                            // Skip marker (legacy handling)
+                            continue;
+                        } else if c == '\x01' {
+                            // Start of expression
+                            let mut expr_str = String::new();
+                            while let Some(ch) = chars.next() {
+                                if ch == '\x02' {
+                                    break;
+                                }
+                                expr_str.push(ch);
+                            }
+                            
+                            // Parse and evaluate the expression
+                            if let Ok(expr) = crate::parser::Parser::parse_expression_from_string(&expr_str) {
+                                if let Ok(val) = self.eval_expression(&expr) {
+                                    result.push_str(&val.to_string_value());
+                                }
+                            }
+                        } else {
+                            result.push(c);
+                        }
+                    }
+                    Ok(Value::String(result))
+                } else {
+                    Ok(Value::String(s.clone()))
+                }
+            }
             Expression::Identifier(name) => {
                 self.env.get(name)
                     .or_else(|| builtins::get_builtin(name))

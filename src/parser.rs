@@ -376,8 +376,14 @@ impl Parser {
         Ok(Statement::For { var, iter, body })
     }
 
-    fn parse_expression(&mut self) -> Result<Expression> {
+    pub fn parse_expression(&mut self) -> Result<Expression> {
         self.parse_pipe()
+    }
+
+    pub fn parse_expression_from_string(expr_str: &str) -> Result<Expression> {
+        let tokens = crate::lexer::tokenize(expr_str)?;
+        let mut parser = Parser::new(tokens);
+        parser.parse_expression()
     }
 
     fn parse_pipe(&mut self) -> Result<Expression> {
