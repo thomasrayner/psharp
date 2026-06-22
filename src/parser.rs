@@ -82,6 +82,10 @@ pub enum Statement {
         name: String,
         value: Expression,
     },
+    Assignment {
+        name: String,
+        value: Expression,
+    },
     FunctionDecl {
         name: String,
         params: Vec<String>,
@@ -181,6 +185,27 @@ impl Parser {
             TokenType::Continue => {
                 self.advance();
                 Ok(Statement::Continue)
+            }
+            TokenType::Identifier(_) => {
+                // Check if this is an assignment
+                if let TokenType::Identifier(name) = &self.current().token_type {
+                    let name = name.clone();
+                    self.advance();
+                    
+                    if matches!(self.current().token_type, TokenType::Equal) {
+                        self.advance();
+                        let value = self.parse_expression()?;
+                        self.consume_statement_end();
+                        return Ok(Statement::Assignment { name, value });
+                    }
+                    
+                    // Not an assignment, backtrack
+                    self.pos -= 1;
+                }
+                
+                let expr = self.parse_expression()?;
+                self.consume_statement_end();
+                Ok(Statement::Expression(expr))
             }
             _ => {
                 let expr = self.parse_expression()?;

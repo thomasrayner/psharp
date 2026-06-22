@@ -27,6 +27,14 @@ impl Environment {
     }
 
     pub fn set(&mut self, name: String, value: Value) {
+        // Try to update existing variable in any scope
+        for scope in self.scopes.iter_mut().rev() {
+            if scope.contains_key(&name) {
+                scope.insert(name, value);
+                return;
+            }
+        }
+        // If not found, create in current scope
         if let Some(scope) = self.scopes.last_mut() {
             scope.insert(name, value);
         }
@@ -76,6 +84,11 @@ impl Evaluator {
                 Ok(())
             }
             Statement::VariableDecl { name, value } => {
+                let val = self.eval_expression(value)?;
+                self.env.set(name.clone(), val);
+                Ok(())
+            }
+            Statement::Assignment { name, value } => {
                 let val = self.eval_expression(value)?;
                 self.env.set(name.clone(), val);
                 Ok(())
@@ -406,6 +419,13 @@ impl Evaluator {
     }
 
     fn call_function(&mut self, func: Value, args: Vec<Value>) -> Result<Value> {
+        // Check if this is a builtin
+        if builtins::is_builtin(&func) {
+            if let Some(name) = builtins::get_builtin_name(&func) {
+                return builtins::call_builtin(&name, args);
+            }
+        }
+
         match func {
             Value::Function { params, body, closure } => {
                 if params.len() != args.len() {
@@ -434,7 +454,7 @@ impl Evaluator {
 
                 Ok(result)
             }
-            _ => builtins::call_builtin(&func, args),
+            _ => Err(anyhow!("Not a function")),
         }
     }
 }

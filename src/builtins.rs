@@ -13,18 +13,67 @@ pub fn get_builtin(name: &str) -> Option<Value> {
         "sqrt" | "pow" | "contains" | "starts_with" | "ends_with" | "replace" | "to_string" |
         "to_number" | "read_file" | "write_file" | "exec" | "exists" | "mkdir" | "rm" |
         "ls" | "pwd" | "cd" | "now" | "sleep" | "error" | "assert" | "debug" => {
-            Some(Value::Function {
-                params: vec![],
-                body: vec![],
-                closure: Box::new(crate::evaluator::Environment::new()),
-            })
+            // Return a special marker that indicates this is a builtin
+            Some(Value::String(format!("__builtin_{}", name)))
         }
         _ => None,
     }
 }
 
-pub fn call_builtin(_func: &Value, _args: Vec<Value>) -> Result<Value> {
-    Err(anyhow!("Builtin function dispatch not yet implemented"))
+pub fn is_builtin(val: &Value) -> bool {
+    match val {
+        Value::String(s) => s.starts_with("__builtin_"),
+        _ => false,
+    }
+}
+
+pub fn get_builtin_name(val: &Value) -> Option<String> {
+    match val {
+        Value::String(s) if s.starts_with("__builtin_") => {
+            Some(s.strip_prefix("__builtin_").unwrap().to_string())
+        }
+        _ => None,
+    }
+}
+
+pub fn call_builtin(name: &str, args: Vec<Value>) -> Result<Value> {
+    match name {
+        "print" | "echo" | "println" | "log" => builtin_print(args),
+        "len" => builtin_len(args),
+        "type" => builtin_type(args),
+        "keys" => builtin_keys(args),
+        "values" => builtin_values(args),
+        "range" => builtin_range(args),
+        "join" => builtin_join(args),
+        "split" => builtin_split(args),
+        "trim" => builtin_trim(args),
+        "upper" => builtin_upper(args),
+        "lower" => builtin_lower(args),
+        "reverse" => builtin_reverse(args),
+        "contains" => builtin_contains(args),
+        "starts_with" => builtin_starts_with(args),
+        "ends_with" => builtin_ends_with(args),
+        "replace" => builtin_replace(args),
+        "to_string" => builtin_to_string(args),
+        "to_number" => builtin_to_number(args),
+        "sum" => builtin_sum(args),
+        "min" => builtin_min(args),
+        "max" => builtin_max(args),
+        "abs" => builtin_abs(args),
+        "floor" => builtin_floor(args),
+        "ceil" => builtin_ceil(args),
+        "round" => builtin_round(args),
+        "sqrt" => builtin_sqrt(args),
+        "pow" => builtin_pow(args),
+        "read_file" => builtin_read_file(args),
+        "write_file" => builtin_write_file(args),
+        "exec" => builtin_exec(args),
+        "exists" => builtin_exists(args),
+        "ls" => builtin_ls(args),
+        "debug" => builtin_debug(args),
+        "error" => builtin_error(args),
+        _ => Err(anyhow!("Unknown builtin: {}", name)),
+    }
 }
 
 pub fn builtin_print(args: Vec<Value>) -> Result<Value> {
