@@ -1,15 +1,5 @@
-# Rust
-/target/
-Cargo.lock
-*.pdb
+ANALYSIS*.md
+FINDINGS*.txt
+ISSUES*.txt
+README_ANALYSIS.txt
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# P# REPL
-.p#_history
