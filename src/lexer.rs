@@ -141,12 +141,41 @@ pub fn tokenize(source: &str) -> Result<Vec<Token>> {
                                 'r' => string.push('\r'),
                                 '\\' => string.push('\\'),
                                 '"' => string.push('"'),
+                                '$' => string.push('$'), // Allow escaping $
                                 _ => {
                                     string.push('\\');
                                     string.push(next);
                                 }
                             }
                         }
+                    } else if c == '$' && chars.clone().nth(1) == Some('{') {
+                        // Start of interpolation - we'll handle this specially
+                        string.push('\x00'); // Marker for interpolation start
+                        chars.next();
+                        chars.next();
+                        column += 2;
+                        
+                        // Collect the expression inside ${}
+                        let mut expr = String::new();
+                        let mut brace_depth = 1;
+                        while let Some(&ch) = chars.peek() {
+                            if ch == '{' {
+                                brace_depth += 1;
+                            } else if ch == '}' {
+                                brace_depth -= 1;
+                                if brace_depth == 0 {
+                                    chars.next();
+                                    column += 1;
+                                    break;
+                                }
+                            }
+                            expr.push(ch);
+                            chars.next();
+                            column += 1;
+                        }
+                        
+                        // Store expr as a marker followed by the expression
+                        string.push_str(&format!("\x01{}\x02", expr));
                     } else {
                         chars.next();
                         column += 1;

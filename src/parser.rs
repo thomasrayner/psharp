@@ -642,6 +642,37 @@ impl Parser {
                 self.expect(TokenType::RightParen)?;
                 Ok(expr)
             }
+            TokenType::PipeOp => {
+                // Lambda syntax: |params| body
+                self.advance();
+                let mut params = Vec::new();
+                
+                // Parse parameters
+                if !matches!(self.current().token_type, TokenType::PipeOp) {
+                    loop {
+                        if let TokenType::Identifier(p) = &self.current().token_type {
+                            params.push(p.clone());
+                            self.advance();
+                        } else {
+                            return Err(anyhow!("Expected parameter name in lambda"));
+                        }
+                        
+                        if matches!(self.current().token_type, TokenType::Comma) {
+                            self.advance();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                
+                self.expect(TokenType::PipeOp)?;
+                let body = self.parse_expression()?;
+                
+                Ok(Expression::Lambda {
+                    params,
+                    body: Box::new(body),
+                })
+            }
             TokenType::LeftBracket => {
                 self.advance();
                 let mut elements = Vec::new();
