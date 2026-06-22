@@ -1,5 +1,4 @@
 use crate::lexer::{Token, TokenType};
-use crate::types::Value;
 use anyhow::{anyhow, Result};
 
 #[derive(Debug, Clone, PartialEq)]

@@ -55,6 +55,8 @@ pub struct Evaluator {
     break_flag: bool,
     continue_flag: bool,
     return_value: Option<Value>,
+    recursion_depth: usize,
+    max_recursion_depth: usize,
 }
 
 impl Evaluator {
@@ -64,6 +66,8 @@ impl Evaluator {
             break_flag: false,
             continue_flag: false,
             return_value: None,
+            recursion_depth: 0,
+            max_recursion_depth: 1000, // Prevent stack overflow
         }
     }
 
@@ -99,7 +103,19 @@ impl Evaluator {
                     body: body.clone(),
                     closure: Box::new(self.env.clone()),
                 };
-                self.env.set(name.clone(), func);
+                
+                // Set the function in the environment FIRST
+                self.env.set(name.clone(), func.clone());
+                
+                // Now update the function's closure to include itself for recursion support
+                // This is done by creating a new function that captures the current environment
+                // (which now includes the function itself)
+                let func_with_self = Value::Function {
+                    params: params.clone(),
+                    body: body.clone(),
+                    closure: Box::new(self.env.clone()),
+                };
+                self.env.set(name.clone(), func_with_self);
                 Ok(())
             }
             Statement::Return(expr) => {
@@ -222,7 +238,7 @@ impl Evaluator {
             Expression::Identifier(name) => {
                 self.env.get(name)
                     .or_else(|| builtins::get_builtin(name))
-                    .ok_or_else(|| anyhow!("Undefined variable: {}", name))
+                    .ok_or_else(|| anyhow!("Undefined variable: '{}'. Check spelling or define it with 'let'.", name))
             }
             Expression::Array(elements) => {
                 let mut arr = Vec::new();
@@ -270,12 +286,26 @@ impl Evaluator {
                 let idx = self.eval_expression(index)?;
                 match (&obj, &idx) {
                     (Value::Array(arr), Value::Number(n)) => {
-                        let index = *n as usize;
+                        let index = if *n < 0.0 {
+                            // Support negative indexing (Python style)
+                            let neg_index = (*n as i32) as i64;
+                            let len = arr.len() as i64;
+                            ((len + neg_index) as usize)
+                        } else {
+                            *n as usize
+                        };
                         Ok(arr.get(index).cloned().unwrap_or(Value::Null))
                     }
                     (Value::String(s), Value::Number(n)) => {
-                        let index = *n as usize;
-                        let ch = s.chars().nth(index);
+                        let chars: Vec<char> = s.chars().collect();
+                        let index = if *n < 0.0 {
+                            let neg_index = (*n as i32) as i64;
+                            let len = chars.len() as i64;
+                            ((len + neg_index) as usize)
+                        } else {
+                            *n as usize
+                        };
+                        let ch = chars.get(index);
                         Ok(ch.map(|c| Value::String(c.to_string())).unwrap_or(Value::Null))
                     }
                     (Value::Object(map), Value::String(key)) => {
@@ -428,18 +458,40 @@ impl Evaluator {
 
         match func {
             Value::Function { params, body, closure } => {
+                // Check recursion depth
+                if self.recursion_depth >= self.max_recursion_depth {
+                    return Err(anyhow!(
+                        "Maximum recursion depth ({}) exceeded. Check for infinite loops.",
+                        self.max_recursion_depth
+                    ));
+                }
+
                 if params.len() != args.len() {
                     return Err(anyhow!("Expected {} arguments, got {}", params.len(), args.len()));
                 }
 
                 let saved_env = self.env.clone();
+                
+                // For recursion support: use the closure as base, but also keep
+                // global functions accessible by merging with saved environment
                 self.env = (*closure).clone();
+                
+                // Merge in any global functions from the saved environment (for recursion)
+                for scope in saved_env.scopes.iter() {
+                    for (name, value) in scope {
+                        if matches!(value, Value::Function { .. }) && self.env.get(name).is_none() {
+                            self.env.set(name.clone(), value.clone());
+                        }
+                    }
+                }
+                
                 self.env.push_scope();
 
                 for (param, arg) in params.iter().zip(args.iter()) {
                     self.env.set(param.clone(), arg.clone());
                 }
 
+                self.recursion_depth += 1;
                 let ret_val = self.return_value.take();
                 for stmt in &body {
                     self.eval_statement(stmt)?;
@@ -450,6 +502,7 @@ impl Evaluator {
 
                 let result = self.return_value.take().unwrap_or(Value::Null);
                 self.return_value = ret_val;
+                self.recursion_depth -= 1;
                 self.env = saved_env;
 
                 Ok(result)
