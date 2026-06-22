@@ -2,6 +2,8 @@
 > This entire repo and the associated repos is a meme intended to troll a [certain someone](https://github.com/markekraus) on their birthday.
 > 
 > The entire P# ecosystem is a joke and should not be taken seriously. It was created by prompting Haiku 4.5 to create a modern shell language that fixes all the problems with PowerShell, and then generating a complete marketing ecosystem around it.
+> 
+> Everything generated is slop and cost less than $5. Please don't use this project. It does seem to do what it says, though, so I dunno. Maybe I'm actually on to something here.
 
 # P# - The Joy of Shell Scripting
 
