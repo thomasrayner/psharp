@@ -2,6 +2,30 @@
 
 P# is a modern, elegant shell language that fixes everything wrong with PowerShell while maintaining the productivity benefits of a powerful scripting environment.
 
+**Current Version:** 0.2.0 - Quality & Security Release
+
+## 🎉 What's New in v0.2
+
+### Critical Fixes
+- ✅ **Recursive Functions** - Functions can now call themselves (factorial, fibonacci, etc.)
+- ✅ **Security Hardened** - Removed shell injection vulnerability, restricted file access to current directory
+- ✅ **Resource Protection** - Recursion depth limit (1000) prevents stack overflow
+- ✅ **Negative Indexing** - Python-style `arr[-1]` for last element
+
+### 30+ New Builtin Functions
+- **Array:** push, pop, shift, unshift, sort, unique, flatten, compact, slice, find, index_of
+- **String:** chars, lines, capitalize, indent, pad_left, pad_right
+- **Predicates:** includes?, empty?, any?, all?
+- **Aggregation:** avg (and sum, min, max improvements)
+
+### Examples
+- `examples/recursion.ps` - Working recursive algorithms
+- `examples/array_operations.ps` - All 20+ array functions
+- `examples/string_operations.ps` - All 15+ string functions
+- `examples/advanced_features.ps` - Complete feature showcase
+
+**See [IMPROVEMENTS.md](IMPROVEMENTS.md) for complete details.**
+
 ## Why P#?
 
 **PowerShell Problems P# Fixes:**
