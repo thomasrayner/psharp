@@ -1,0 +1,33 @@
+# String Operations - P# has powerful string manipulation
+
+s = "Hello, World!"
+
+print("Original string:")
+print(s)
+
+print("\nString transformations:")
+print("Upper:", upper(s))
+print("Lower:", lower(s))
+print("Capitalize:", capitalize("hello"))
+print("Trim:", trim("  spaces  "))
+
+print("\nString analysis:")
+print("Length:", len(s))
+print("Contains 'World':", contains(s, "World"))
+print("Starts with 'Hello':", starts_with(s, "Hello"))
+print("Ends with '!':", ends_with(s, "!"))
+
+print("\nString manipulation:")
+print("Replace 'World' with 'P#':", replace(s, "World", "P#"))
+print("Characters:", chars("Hi"))
+print("Split by ', ':", split(s, ", "))
+print("Join with ' ':", join(["a", "b", "c"], " "))
+
+print("\nPadding:")
+print("Pad left to 20:", pad_left("text", 20))
+print("Pad right to 20:", pad_right("text", 20))
+
+print("\nString slicing with negative indices:")
+print("Last char:", s[-1])
+print("First char:", s[0])
+print("Slice [0,5]:", slice(s, 0, 5))

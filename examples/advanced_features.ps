@@ -1,0 +1,60 @@
+# Advanced P# Features - Security, Performance, and Joy
+
+print("=== P# Advanced Features Demo ===")
+print("")
+
+# 1. Recursive functions with depth protection
+print("1. Recursive Functions (with depth protection)")
+fn sum_range(n, acc) {
+    if n == 0 {
+        return acc
+    }
+    return sum_range(n - 1, acc + n)
+}
+print("Sum of 1-10:", sum_range(10, 0))
+print("")
+
+# 2. Negative indexing
+print("2. Negative Indexing (Python-style)")
+data = ["first", "second", "third", "last"]
+print("Last element:", data[-1])
+print("Second to last:", data[-2])
+print("")
+
+# 3. Rich string operations
+print("3. String Operations")
+text = "The Quick Brown Fox"
+print("Original:", text)
+print("Lowercase:", lower(text))
+print("Words:", split(text, " "))
+print("Reversed:", reverse(reverse("hello")))
+print("")
+
+# 4. Array operations
+print("4. Array Operations")
+numbers = [5, 2, 8, 1, 9, 3]
+print("Original:", numbers)
+print("Sorted:", sort(numbers))
+print("Unique items in [1,2,1,3,2,3]:", unique([1, 2, 1, 3, 2, 3]))
+print("Flattened [[1,2],[3,4]]:", flatten([[1, 2], [3, 4]]))
+print("Sum:", sum(numbers))
+print("Average:", avg(numbers))
+print("")
+
+# 5. Predicates and filtering
+print("5. Predicates")
+items = [0, 1, false, "", "text", true]
+print("Any truthy:", any?(items))
+print("All truthy:", all?([true, true, true]))
+print("Empty array:", empty?([]))
+print("Not empty:", empty?([1]))
+print("")
+
+# 6. File operations (restricted to current directory)
+print("6. File Operations (Secure)")
+print("Current directory files:")
+files = ls()
+print("Count:", len(files))
+print("")
+
+print("✨ All features working!")

@@ -1,0 +1,32 @@
+# Array Operations - P# has 20+ array builtin functions
+
+arr = [3, 1, 4, 1, 5, 9]
+
+print("Original array:")
+print(arr)
+
+print("\nArray Operations:")
+print("Length:", len(arr))
+print("Sorted:", sort(arr))
+print("Unique:", unique(arr))
+print("Sum:", sum(arr))
+print("Average:", avg(arr))
+print("Min:", min(arr))
+print("Max:", max(arr))
+
+print("\nArray manipulation:")
+print("Push 10:", push(arr, 10))
+print("Pop:", pop(arr))
+print("Shift:", shift(arr))
+print("Unshift 0:", unshift(arr, 0))
+
+print("\nSlicing:")
+print("Slice [1,4]:", slice(arr, 1, 4))
+print("Find 5:", find(arr, 5))
+print("Index of 4:", index_of(arr, 4))
+
+print("\nPredicates:")
+print("Includes 5:", includes?(arr, 5))
+print("Empty:", empty?(arr))
+print("Any truthy:", any?([false, true, false]))
+print("All truthy:", all?([true, true, true]))

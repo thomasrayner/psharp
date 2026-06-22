@@ -1,0 +1,26 @@
+# Recursive Factorial
+# P# now supports recursive functions with a recursion depth limit
+fn factorial(n) {
+    if n <= 1 {
+        return 1
+    }
+    return n * factorial(n - 1)
+}
+
+fn fibonacci(n) {
+    if n <= 1 {
+        return n
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+print("Factorial(5) =")
+print(factorial(5))
+
+print("Fibonacci(10) =")
+print(fibonacci(10))
+
+# Recursion depth is limited to prevent stack overflow
+# Uncomment to see the limit in action:
+# fn infinite(x) { return infinite(x + 1) }
+# print(infinite(0))
