@@ -1,0 +1,15 @@
+# Rust
+/target/
+Cargo.lock
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# P# REPL
+.p#_history

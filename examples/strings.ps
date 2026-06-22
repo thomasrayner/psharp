@@ -1,0 +1,24 @@
+# String manipulation
+let original = "The quick brown fox jumps"
+
+# Get length
+print(len(original))
+
+# Convert to uppercase
+let upper_text = original | upper()
+print(upper_text)
+
+# Check if contains
+if contains(original, "quick") {
+    print("Found 'quick'")
+}
+
+# Replace text
+let modified = replace(original, "brown", "lazy")
+print(modified)
+
+# Split and join
+let words = split(original, " ")
+print(len(words))
+let rejoined = join(words, "-")
+print(rejoined)
